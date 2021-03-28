@@ -7,7 +7,7 @@ adb connect 192.168.8.1:5555 >nul 2>&1
 adb devices -l | find "192.168.8.1:5555" >nul 2>&1
 if [ "$?" -eq 1 ]; then
 adb kill-server >null 2>&1
-echo "Device NOT Connected
+echo "Device NOT Connected"
 echo "Try Again"
 timeout /t 10 /nobreak >null 2>&1
 else
