@@ -3,14 +3,13 @@ echo "Downloading Files..."
 wget https://github.com/k4m0t3/v2ray/raw/main/atong.tgz -O atong.tgz
 adb kill-server >nul 2>&1
 echo "Connecting to your modem ...."
-adb connect 192.168.8.1:5555 >/dev/null 2>&1
-adb devices -l | grep "192.168.8.1:5555" >/dev/null 2>&1
-if [ "$?" -eq 1 ]; then
-adb kill-server >/dev/null 2>&1
-echo Device NOT Connected !!!
-echo Exiting ...
-timeout /t 10 /nobreak >/dev/null 2>&1
-exit
+adb connect 192.168.8.1:5555 >nul 2>&1
+adb devices -l | find "192.168.8.1:5555" >nul 2>&1
+if errorlevel 1 (
+adb kill-server >nul 2>&1
+echo "Device NOT Connected"
+echo "Please try again!"
+pause >nul 2>&1
 else
 echo Connected !!!
 adb shell sleep 2
@@ -23,4 +22,7 @@ adb shell tar -xzvf /tmp/atong.tgz -C /online
 adb shell chmod -R 777 /online/atong/v2ray/
 adb shell rm -rf /tmp/atong.tgz
 adb shell sh /online/atong/v2ray/bin/install.sh
-fi
+adb shell echo "Install Completed."
+adb shell echo "Rebooting Device..."
+adb kill-server >nul 2>&1
+pause >nul 2>&1
